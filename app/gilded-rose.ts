@@ -8,12 +8,98 @@ export class Item {
         this.sellIn = sellIn;
         this.quality = quality;
     }
-    public increaseQuality() {
-        return this.quality = this.quality + 1
+
+    updateQuality() {
+        this.updateQuality()
     }
-    public decreaseQuality() {
-        return this.quality = this.quality - 1
+
+}
+
+export class StandardItem extends Item {
+    constructor(name, sellIn, quality) {
+        super(name, sellIn, quality)
     }
+
+    public updateQuality() {
+        if (this.sellIn >= 0) {
+            this.quality = this.quality > 0 ? this.quality - 1 : 0
+            return this.quality
+        } else {
+            this.quality = this.quality > 1 ? this.quality - 2 : 0
+            return this.quality
+        }
+    }
+}
+
+export class AgedBrieItem extends Item {
+    constructor(name, sellIn, quality) {
+        super(name, sellIn, quality)
+    }
+
+    public updateQuality() {
+        if (this.sellIn >= 0) {
+            this.quality = this.quality < 50 ? this.quality + 1 : 50
+            return this.quality
+        } else {
+            this.quality = this.quality < 49 ? this.quality + 2 : 50
+            return this.quality
+        }
+    }
+}
+
+
+export class ConjuredItem extends Item {
+    constructor(name, sellIn, quality) {
+        super(name, sellIn, quality)
+    }
+
+    public updateQuality() {
+        if (this.sellIn >= 0) {
+            this.quality = this.quality > 1 ? this.quality - 2 : 0
+            return this.quality
+
+        } else {
+            this.quality = this.quality > 3 ? this.quality - 4 : 0
+            return this.quality
+        }
+    }
+}
+
+export class BackstageItem extends Item {
+    constructor(name, sellIn, quality) {
+        super(name, sellIn, quality)
+    }
+
+    updateQuality() {
+
+        if (this.sellIn > 11) {
+            this.quality = this.quality < 50 ? this.quality + 1 : 50
+            return this.quality
+
+        } else if (this.sellIn < 11 && this.sellIn > 5) {
+            this.quality = this.quality < 49 ? this.quality + 2 : 50
+            return this.quality
+
+        } else if (this.sellIn < 6 && this.sellIn > 0) {
+            this.quality = this.quality < 48 ? this.quality + 3 : 50
+            return this.quality
+
+        } else {
+            this.quality = 0
+            return this.quality
+        }
+    }
+}
+
+export class SulfurasItem extends Item {
+    constructor(name, sellIn, quality) {
+        super(name, sellIn, quality)
+    }
+
+    updateQuality() {
+        return this.quality
+    }
+
 }
 
 
@@ -25,71 +111,17 @@ export class GildedRose {
     }
 
     updateQuality() {
+
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-                // diminue la qualité de -1 
-                if (this.items[i].quality > 0) {
-                    if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-                        this.items[i].decreaseQuality()
-                    }
-                }
-                if (this.items[i].name == 'Conjured') {
-                    if (this.items[i].quality > 0) {
-                        this.items[i].decreaseQuality()
-                    }
-                }
-            } else {
-                // j'augemente la quality de 1
-                if (this.items[i].quality < 50) {
-                    this.items[i].increaseQuality()
-                    // je continue à augmenté pour backstage
-                    if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-                        // augemente backstage quality
-                        if (this.items[i].sellIn < 11) {
-                            if (this.items[i].quality < 50) {
-                                this.items[i].increaseQuality()
-                            }
-                        }
-                        if (this.items[i].sellIn < 6) {
-                            if (this.items[i].quality < 50) {
-                                this.items[i].increaseQuality()
-                            }
-                        }
-                    }
-                }
-            }
+
             if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
                 // j'update sellIn de -1
                 this.items[i].sellIn = this.items[i].sellIn - 1;
             }
-            // si sellIn passe en négatif je continue à diminue
-            if (this.items[i].sellIn < 0) {
-                if (this.items[i].name != 'Aged Brie') {
-                    if (this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-                        if (this.items[i].quality > 0) {
-                            if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-                                // si SellIn est négatif je rediminue quality de 1
-                                this.items[i].decreaseQuality()
-                            }
-                            if (this.items[i].name == 'Conjured') {
-                                if (this.items[i].quality > 0) {
-                                    this.items[i].decreaseQuality()
-                                }
-                            }
-                        }
-                    } else {
-                        // je met backstage à 0 si sellIn = 0
-                        this.items[i].quality = 0
-                    }
-                } else {
-                    // j'augmente aged brie de 1 quality est pas de 50
-                    if (this.items[i].quality < 50) {
-                        this.items[i].increaseQuality()
-                    }
-                }
-            }
-        }
 
+            this.items[i].updateQuality()
+        }
         return this.items;
     }
-}
+
+} 
