@@ -20,7 +20,7 @@ export class StandardItem extends Item {
         super(name, sellIn, quality)
     }
 
-    public updateQuality() {
+    updateQuality() {
         if (this.sellIn >= 0) {
             this.quality = this.quality > 0 ? this.quality - 1 : 0
             return this.quality
@@ -36,7 +36,7 @@ export class AgedBrieItem extends Item {
         super(name, sellIn, quality)
     }
 
-    public updateQuality() {
+    updateQuality() {
         if (this.sellIn >= 0) {
             this.quality = this.quality < 50 ? this.quality + 1 : 50
             return this.quality
@@ -53,7 +53,7 @@ export class ConjuredItem extends Item {
         super(name, sellIn, quality)
     }
 
-    public updateQuality() {
+    updateQuality() {
         if (this.sellIn >= 0) {
             this.quality = this.quality > 1 ? this.quality - 2 : 0
             return this.quality
