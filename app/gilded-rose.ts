@@ -10,17 +10,6 @@ export class Item {
     }
 
     updateQuality() {
-        this.updateQuality()
-    }
-
-}
-
-export class StandardItem extends Item {
-    constructor(name, sellIn, quality) {
-        super(name, sellIn, quality)
-    }
-
-    updateQuality() {
         if (this.sellIn >= 0) {
             this.quality = this.quality > 0 ? this.quality - 1 : 0
             return this.quality
@@ -29,6 +18,7 @@ export class StandardItem extends Item {
             return this.quality
         }
     }
+
 }
 
 export class AgedBrieItem extends Item {

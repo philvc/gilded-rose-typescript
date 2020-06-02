@@ -1,17 +1,17 @@
 import { expect } from 'chai';
-import { Item, GildedRose, ConjuredItem, SulfurasItem, StandardItem, AgedBrieItem, BackstageItem } from '../app/gilded-rose';
+import { Item, GildedRose, ConjuredItem, SulfurasItem, AgedBrieItem, BackstageItem } from '../app/gilded-rose';
 
 describe('Gilded Rose', function () {
 
     it('should foo', function () {
-        const gildedRose = new GildedRose([new StandardItem('foo', 0, 0)]);
+        const gildedRose = new GildedRose([new Item('foo', 0, 0)]);
         const items = gildedRose.updateQuality();
         expect(items[0].name).to.equal('foo');
     });
     it('should quality decrease 1', function () {
         const sellIn = 5;
         const quality = 10;
-        const gildedRose = new GildedRose([new StandardItem('Dague', sellIn, quality)]);
+        const gildedRose = new GildedRose([new Item('Dague', sellIn, quality)]);
         const items = gildedRose.updateQuality();
         expect(items[0].quality).to.equal(9);
     });
