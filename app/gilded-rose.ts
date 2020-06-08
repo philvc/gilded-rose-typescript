@@ -92,12 +92,26 @@ export class SulfurasItem extends Item {
 
 }
 
+export function itemFactory(item) {
+    if (item.name === 'Conjured') {
+        return new ConjuredItem(item.name, item.sellIn, item.quality)
+    } else if (item.name.includes('Backstage passes')) {
+        return new BackstageItem(item.name, item.sellIn, item.quality)
+    } else if (item.name === 'Sulfuras, Hand of Ragnaros') {
+        return new SulfurasItem(item.name, item.sellIn, item.quality)
+    } else if (item.name === 'Aged Brie') {
+        return new AgedBrieItem(item.name, item.sellIn, item.quality)
+    } else {
+        return item
+    }
+}
+
 
 export class GildedRose {
     items: Array<Item>;
 
     constructor(items = [] as Array<Item>) {
-        this.items = items;
+        this.items = items.map((item: Item) => itemFactory(item));
     }
 
     updateQuality() {
@@ -105,7 +119,7 @@ export class GildedRose {
         for (let i = 0; i < this.items.length; i++) {
 
             if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-                // j'update sellIn de -1
+                // decrease sellIn by 1
                 this.items[i].sellIn = this.items[i].sellIn - 1;
             }
 
