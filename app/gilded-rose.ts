@@ -10,13 +10,16 @@ export class Item {
     }
 
     updateQuality() {
-        if (this.sellIn >= 0) {
-            this.quality = this.quality > 0 ? this.quality - 1 : 0
-            return this.quality
-        } else {
-            this.quality = this.quality > 1 ? this.quality - 2 : 0
-            return this.quality
-        }
+        const value = this.sellIn >= 0 ? 1 : 2;
+        return this.decreaseQuality(value)
+    }
+
+    decreaseQuality(value: number) {
+
+        const decreasedQuality = this.quality - value;
+        const finalResult = decreasedQuality < 0 ? 0 : decreasedQuality;
+        this.quality = finalResult;
+        return this.quality;
     }
 
 }
@@ -27,13 +30,16 @@ export class AgedBrieItem extends Item {
     }
 
     updateQuality() {
-        if (this.sellIn >= 0) {
-            this.quality = this.quality < 50 ? this.quality + 1 : 50
-            return this.quality
-        } else {
-            this.quality = this.quality < 49 ? this.quality + 2 : 50
-            return this.quality
-        }
+        const value = this.sellIn >= 0 ? 1 : 2;
+        return this.increaseQuality(value)
+    }
+
+
+    increaseQuality(value: number) {
+        const increasedQuality = this.quality + value;
+        const finalResult = increasedQuality > 50 ? 50 : increasedQuality;
+        this.quality = finalResult
+        return this.quality
     }
 }
 
@@ -44,14 +50,16 @@ export class ConjuredItem extends Item {
     }
 
     updateQuality() {
-        if (this.sellIn >= 0) {
-            this.quality = this.quality > 1 ? this.quality - 2 : 0
-            return this.quality
+        const value = this.sellIn >= 0 ? 2 : 4;
+        return this.decreaseQuality(value)
+    }
 
-        } else {
-            this.quality = this.quality > 3 ? this.quality - 4 : 0
-            return this.quality
-        }
+    decreaseQuality(value: number) {
+        const decreasedQuality = this.quality - value;
+        const finalResult = decreasedQuality < 0 ? 0 : decreasedQuality;
+        this.quality = finalResult
+        return this.quality
+
     }
 }
 
@@ -62,22 +70,16 @@ export class BackstageItem extends Item {
 
     updateQuality() {
 
-        if (this.sellIn > 11) {
-            this.quality = this.quality < 50 ? this.quality + 1 : 50
-            return this.quality
+        const value = this.sellIn > 11 ? 1 : this.sellIn > 5 ? 2 : this.sellIn > 0 ? 3 : 0;
+        return this.increaseQuality(value)
+    }
 
-        } else if (this.sellIn < 11 && this.sellIn > 5) {
-            this.quality = this.quality < 49 ? this.quality + 2 : 50
-            return this.quality
+    increaseQuality(value: number) {
+        const increasedQuality = value === 0 ? 0 : this.quality + value;
+        const finalResult = increasedQuality > 50 ? 50 : increasedQuality;
+        this.quality = finalResult;
+        return this.quality
 
-        } else if (this.sellIn < 6 && this.sellIn > 0) {
-            this.quality = this.quality < 48 ? this.quality + 3 : 50
-            return this.quality
-
-        } else {
-            this.quality = 0
-            return this.quality
-        }
     }
 }
 
